@@ -77,7 +77,7 @@ export default async function ShopCategoryPage({ params }: CategoryPageProps) {
                   title="Halaman tidak ditemukan"
                   description="Halaman ini mungkin sudah dipindahkan atau belum ada. Coba lihat toko kami secara lengkap."
                 />
-                <EmptyState message="Coba pilih Fashion, Makanan, atau Produksi dari menu di atas — atau kembali ke beranda untuk menjelajahi semua produk kami." />
+                <EmptyState message="Coba pilih Produk Tas dari menu di atas — atau kembali ke beranda untuk menjelajahi semua produk kami." />
               </>
             )}
           </Container>

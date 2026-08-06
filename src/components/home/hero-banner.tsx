@@ -44,7 +44,7 @@ export function HeroBanner() {
               href="#new-arrivals"
               className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-ink/15 px-7 py-3 text-sm font-medium text-ink transition-all duration-200 hover:border-ink/35 hover:bg-paper hover:shadow-sm active:scale-[0.98] sm:w-auto sm:py-3.5"
             >
-              Tentang Kami
+              Produk Terbaru
             </a>
           </div>
 
