@@ -9,7 +9,6 @@ const footerColumns = [
     links: [
       { label: "Fashion", href: "/shop?category=fashion" },
       { label: "Makanan", href: "/shop?category=food" },
-      { label: "Produksi", href: "/shop?category=production" },
     ],
   },
   {
@@ -108,7 +107,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between sm:pt-8">
           <p className="font-mono text-xs text-slate">
-            © {new Date().getFullYear()} Charolina Eydet. Hak cipta dilindungi.
+            © {new Date().getFullYear()} Terrashop. Hak cipta dilindungi.
           </p>
           <div className="flex items-center gap-6">
             <Link

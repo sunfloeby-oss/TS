@@ -1,8 +1,6 @@
 import { HeroBanner } from "@/components/home/hero-banner";
 import { NewArrivals } from "@/components/home/new-arrivals";
 import { CategoriesSection } from "@/components/home/categories-section";
-import { InstagramHighlights } from "@/components/home/instagram-highlights";
-import { ProcessTimeline } from "@/components/home/process-timeline";
 import { Footer } from "@/components/home/footer";
 
 export default function Home() {
@@ -12,8 +10,6 @@ export default function Home() {
         <HeroBanner />
         <CategoriesSection />
         <NewArrivals />
-        <InstagramHighlights />
-        <ProcessTimeline />
       </main>
       <Footer />
     </div>

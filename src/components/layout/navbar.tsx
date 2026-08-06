@@ -12,7 +12,6 @@ import { InstagramIcon } from "@/components/icons/instagram-icon";
 const CATEGORY_LINKS = [
   { label: "Fashion", href: "/shop?category=fashion" },
   { label: "Makanan", href: "/shop?category=food" },
-  { label: "Produksi", href: "/shop?category=production" },
   { label: "Hubungi Kami", href: "/contact" },
 ] as const;
 
