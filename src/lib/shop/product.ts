@@ -18,6 +18,8 @@ export type ShopProductDetail = {
   compareAtPrice: number | null;
   currency: string;
   stock: number;
+  /** Nullable — not every product has one assigned. */
+  sku: string | null;
   category: { name: string; slug: string } | null;
   images: { url: string; altText: string | null }[];
   reviews: ShopProductReview[];
@@ -63,6 +65,7 @@ export async function getProductBySlug(
         price: true,
         compareAtPrice: true,
         currency: true,
+        sku: true,
         category: { select: { name: true, slug: true } },
         images: {
           orderBy: { position: "asc" },
@@ -112,6 +115,7 @@ export async function getProductBySlug(
         : null,
       currency: product.currency,
       stock: product.variants.reduce((total, variant) => total + variant.stock, 0),
+      sku: product.sku,
       category: product.category,
       images: product.images,
       reviews,

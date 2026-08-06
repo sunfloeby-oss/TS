@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/navbar";
 import { CartDrawer } from "@/components/cart/cart-drawer";
+import { getSiteUrl } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +27,7 @@ const playfairDisplay = Playfair_Display({
 });
 
 // TODO: replace with the production domain once it's finalized.
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://terrashop20.com";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

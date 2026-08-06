@@ -12,6 +12,7 @@ import { Reveal } from "@/components/home/reveal";
 import { useCart } from "@/components/cart/cart-provider";
 import { ProductImageLightbox } from "@/components/shop/product-image-lightbox";
 import { MobileProductGallery } from "@/components/shop/product-gallery/mobile-product-gallery";
+import { ProductNegotiateButton } from "@/components/shop/product-negotiate-button";
 
 const HOVER_ZOOM_QUERY = "(hover: hover) and (pointer: fine)";
 
@@ -526,18 +527,31 @@ export function ProductDetail({ product }: { product: ShopProductDetail }) {
             </div>
           ) : null}
 
-          {/* Inline add-to-bag — desktop only now; mobile/tablet use the
-              sticky bar below. */}
-          <div className="mt-2 flex">
+          {/* Primary + secondary CTAs — desktop only now; mobile/tablet
+              use the sticky bar below. Stacked full-width for a clean
+              hierarchy: cart action first, WhatsApp negotiation as a
+              quieter outline action underneath. Purely additive — it
+              never touches cart state or the checkout flow. */}
+          <div className="mt-2 flex flex-col gap-3">
             <button
               type="button"
               onClick={handleAddToCart}
               disabled={!inStock}
-              className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-ink py-3.5 text-xs font-medium uppercase tracking-[0.12em] text-paper shadow-sm transition-all duration-200 hover:bg-ink/85 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-cloud disabled:text-slate disabled:shadow-none disabled:active:scale-100 sm:flex-none sm:px-8"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-ink px-8 py-3.5 text-xs font-medium uppercase tracking-[0.12em] text-paper shadow-sm transition-all duration-200 hover:bg-ink/85 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-cloud disabled:text-slate disabled:shadow-none disabled:active:scale-100"
             >
               <ShoppingBag className="h-4 w-4" strokeWidth={1.75} />
               {inStock ? (added ? "Added to bag" : "Add to cart") : "Out of Stock"}
             </button>
+            <ProductNegotiateButton
+              product={{
+                id: product.id,
+                name: product.name,
+                slug: product.slug,
+                price: product.price,
+                currency: product.currency,
+                sku: product.sku,
+              }}
+            />
           </div>
 
           <ProductReviewsSection reviews={product.reviews} />
@@ -545,58 +559,80 @@ export function ProductDetail({ product }: { product: ShopProductDetail }) {
       </div>
 
       {/* ================================================================
-          MOBILE / TABLET sticky purchase bar — the whole purchase flow
-          (quantity + total + add-to-cart) consolidated into one always
-          -reachable, thumb-width bar pinned above the safe area.
+          MOBILE / TABLET sticky footer — a compact WhatsApp bar pinned
+          directly above the existing purchase bar, so it stays visible
+          while scrolling without ever touching that bar's own markup or
+          behavior. Same horizontal rhythm (px-4) as the bar beneath it.
           ================================================================ */}
-      <div className="fixed inset-x-0 bottom-0 z-30 flex items-center gap-2.5 border-t border-line bg-paper/95 px-4 py-3 pb-safe shadow-[0_-8px_24px_-12px_rgba(23,21,26,0.15)] backdrop-blur-md supports-[backdrop-filter]:bg-paper/85 lg:hidden">
-        {inStock ? (
-          <div className="flex h-12 shrink-0 items-center rounded-full border border-line">
-            <button
-              type="button"
-              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              disabled={quantity <= 1}
-              aria-label="Decrease quantity"
-              className="flex h-12 w-11 items-center justify-center text-ink transition-colors duration-200 active:scale-90 disabled:cursor-not-allowed disabled:opacity-30 disabled:active:scale-100"
-            >
-              <Minus className="h-3.5 w-3.5" strokeWidth={1.75} />
-            </button>
-            <span className="w-6 text-center font-mono text-sm text-ink">
-              {quantity}
-            </span>
-            <button
-              type="button"
-              onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
-              disabled={quantity >= product.stock}
-              aria-label="Increase quantity"
-              className="flex h-12 w-11 items-center justify-center text-ink transition-colors duration-200 active:scale-90 disabled:cursor-not-allowed disabled:opacity-30 disabled:active:scale-100"
-            >
-              <Plus className="h-3.5 w-3.5" strokeWidth={1.75} />
-            </button>
-          </div>
-        ) : null}
+      <div className="fixed inset-x-0 bottom-0 z-30 flex flex-col lg:hidden">
+        <div className="border-t border-line bg-paper/95 px-4 py-2.5 shadow-[0_-8px_24px_-12px_rgba(23,21,26,0.15)] backdrop-blur-md supports-[backdrop-filter]:bg-paper/85">
+          <ProductNegotiateButton
+            product={{
+              id: product.id,
+              name: product.name,
+              slug: product.slug,
+              price: product.price,
+              currency: product.currency,
+              sku: product.sku,
+            }}
+            showCaption={false}
+          />
+        </div>
 
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          disabled={!inStock}
-          aria-label={
-            inStock
-              ? `Add ${quantity} ${product.name} to cart, total ${formatCurrency(product.price * quantity, product.currency)}`
-              : "Out of stock"
-          }
-          className="inline-flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 rounded-full bg-ink py-2 text-paper shadow-sm transition-all duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-cloud disabled:text-slate disabled:shadow-none disabled:active:scale-100"
-        >
-          <span className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em]">
-            <ShoppingBag className="h-4 w-4" strokeWidth={1.75} />
-            {inStock ? (added ? "Added to bag" : "Add to cart") : "Out of Stock"}
-          </span>
+        {/* MOBILE / TABLET sticky purchase bar — the whole purchase flow
+            (quantity + total + add-to-cart) consolidated into one always
+            -reachable, thumb-width bar pinned above the safe area.
+            Untouched other than no longer owning the fixed positioning
+            itself, which now lives on the wrapper above. */}
+        <div className="flex items-center gap-2.5 border-t border-line bg-paper/95 px-4 py-3 pb-safe backdrop-blur-md supports-[backdrop-filter]:bg-paper/85">
           {inStock ? (
-            <span className="font-mono text-[11px] text-paper/75">
-              {formatCurrency(product.price * quantity, product.currency)}
-            </span>
+            <div className="flex h-12 shrink-0 items-center rounded-full border border-line">
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                disabled={quantity <= 1}
+                aria-label="Decrease quantity"
+                className="flex h-12 w-11 items-center justify-center text-ink transition-colors duration-200 active:scale-90 disabled:cursor-not-allowed disabled:opacity-30 disabled:active:scale-100"
+              >
+                <Minus className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </button>
+              <span className="w-6 text-center font-mono text-sm text-ink">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
+                disabled={quantity >= product.stock}
+                aria-label="Increase quantity"
+                className="flex h-12 w-11 items-center justify-center text-ink transition-colors duration-200 active:scale-90 disabled:cursor-not-allowed disabled:opacity-30 disabled:active:scale-100"
+              >
+                <Plus className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </button>
+            </div>
           ) : null}
-        </button>
+
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            disabled={!inStock}
+            aria-label={
+              inStock
+                ? `Add ${quantity} ${product.name} to cart, total ${formatCurrency(product.price * quantity, product.currency)}`
+                : "Out of stock"
+            }
+            className="inline-flex min-h-12 flex-1 flex-col items-center justify-center gap-0.5 rounded-full bg-ink py-2 text-paper shadow-sm transition-all duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-cloud disabled:text-slate disabled:shadow-none disabled:active:scale-100"
+          >
+            <span className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.12em]">
+              <ShoppingBag className="h-4 w-4" strokeWidth={1.75} />
+              {inStock ? (added ? "Added to bag" : "Add to cart") : "Out of Stock"}
+            </span>
+            {inStock ? (
+              <span className="font-mono text-[11px] text-paper/75">
+                {formatCurrency(product.price * quantity, product.currency)}
+              </span>
+            ) : null}
+          </button>
+        </div>
       </div>
 
       {lightboxOpen && imageCount > 0 ? (
