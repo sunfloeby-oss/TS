@@ -110,3 +110,49 @@ export function productNegotiation(data: ProductNegotiationData): string {
 
   return lines.join("\n");
 }
+
+/**
+ * Shared input shape for the three product-detail-page WhatsApp contact
+ * options below (see components/shop/product-negotiate-button.tsx). Kept
+ * intentionally minimal — these messages don't include the product URL or
+ * SKU, matching the exact copy the store wants for each contact reason.
+ */
+export type ProductContactData = {
+  productName: string;
+};
+
+/**
+ * "Ask a Question" — pre-filled message for a general product question.
+ */
+export function productQuestion(data: ProductContactData): string {
+  return `Hello, I'm interested in "${data.productName}". I'd like to ask a few questions about this product.`;
+}
+
+/**
+ * "Request Detailed Photos" — pre-filled message asking for front/back/
+ * side/interior photos of the product.
+ */
+export function productPhotoRequest(data: ProductContactData): string {
+  return `Hello, I'm interested in "${data.productName}". Could you send me detailed photos of the product, especially the front, back, sides, and interior?`;
+}
+
+/** Input for productPriceNegotiation() — needs the price to quote it back. */
+export type ProductPriceNegotiationData = {
+  productName: string;
+  /** Product price, in the smallest-unit-free numeric amount (e.g. 150000 for Rp150.000). */
+  price: number;
+  /** Currency code for formatting the price. Defaults to "IDR". */
+  currency?: string;
+};
+
+/**
+ * "Negotiate Price" — pre-filled message quoting the product's current
+ * price back to the customer and asking whether it's negotiable.
+ */
+export function productPriceNegotiation(data: ProductPriceNegotiationData): string {
+  const currency = data.currency ?? "IDR";
+  return `Hello, I'm interested in "${data.productName}", currently priced at ${formatCurrency(
+    data.price,
+    currency
+  )}. Is the price negotiable?`;
+}

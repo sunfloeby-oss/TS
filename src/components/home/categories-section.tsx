@@ -1,4 +1,3 @@
-import { getTopCategories } from "@/lib/queries/home";
 import { Container } from "@/components/home/container";
 import { Reveal } from "@/components/home/reveal";
 import { SectionHeading } from "@/components/home/section-heading";
@@ -11,8 +10,28 @@ const EASING = "cubic-bezier(0.19, 1, 0.22, 1)";
 const DURATION = 620;
 const STAGGER = 65;
 
+// Fixed, curated categories (not pulled from the DB).
+const CATEGORIES = [
+  {
+    id: "tas",
+    name: "Tas",
+    slug: "tas",
+    imageUrl:
+      "https://res.cloudinary.com/dlg1frxo/image/upload/v1786011486/terrashop20/products/sa3szslcuony6mw1uzli.png",
+    productCount: 0,
+  },
+  {
+    id: "pouch",
+    name: "Pouch",
+    slug: "pouch",
+    imageUrl:
+      "https://res.cloudinary.com/dlg1frxo/image/upload/v1786203739/terrashop20/products/kh48a4tbgfkhuealzfe5.jpg",
+    productCount: 0,
+  },
+];
+
 export async function CategoriesSection() {
-  const categories = await getTopCategories(6);
+  const categories = CATEGORIES;
 
   return (
     <section className="bg-paper py-14 sm:py-32">

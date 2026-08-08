@@ -55,21 +55,21 @@ export function HeroBanner() {
           <dl className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-2.5 border-t border-line pt-4 sm:mt-4 sm:gap-x-8 sm:gap-y-3 sm:pt-6">
             <div className="flex flex-col">
               <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-slate">
-                Gratis ongkir
+                Gratis Ongkir
               </dt>
-              <dd className="text-sm font-medium text-ink">Di atas Rp2.350.000</dd>
+              <dd className="text-sm font-medium text-ink">Via Shopee</dd>
             </div>
             <div className="flex flex-col">
               <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-slate">
                 Retur mudah
               </dt>
-              <dd className="text-sm font-medium text-ink">Dalam 60 hari</dd>
+              <dd className="text-sm font-medium text-ink">Dalam 3 hari setelah barang diterima</dd>
             </div>
             <div className="flex flex-col">
               <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-slate">
-                Dijamin asli
+                Foto asli
               </dt>
-              <dd className="text-sm font-medium text-ink">Terverifikasi oleh tim kami</dd>
+              <dd className="text-sm font-medium text-ink">Taken by tim kami</dd>
             </div>
           </dl>
         </div>
